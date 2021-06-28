@@ -1,11 +1,9 @@
 package com.example.bookstore.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
-import org.springframework.format.annotation.DateTimeFormat;
-
 import javax.persistence.*;
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -13,8 +11,6 @@ import java.util.List;
 @Table(name = "user_table")
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Setter
 @EqualsAndHashCode(of = {"id"})
 @ToString
 public class User implements Serializable {
@@ -42,8 +38,62 @@ public class User implements Serializable {
     private List<Adres> adress;
 
     @Column(length = 100, name = "birthdate")
-    @DateTimeFormat(pattern = "hh:mm")
+    @JsonFormat(pattern="yyyy-MM-dd")
     private Date birthDate;
 
+    public Long getId() {
+        return id;
+    }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public List<Adres> getAdress() {
+        return adress;
+    }
+
+    public void setAdress(List<Adres> adress) {
+        this.adress = adress;
+    }
+
+    public Date getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(Date birthDate) {
+        this.birthDate = birthDate;
+    }
 }

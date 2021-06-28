@@ -9,8 +9,6 @@ import java.io.Serializable;
 @Table(name = "user_address")
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Setter
 @EqualsAndHashCode(of = {"id"})
 @ToString
 public class Adres implements Serializable {
@@ -29,13 +27,42 @@ public class Adres implements Serializable {
     @Column(name = "active")
     private Boolean active;
 
-    @ManyToOne
-    @JoinColumn(name = "kisi_adres_id")
-    private User user;
-
     public enum AddressType {
         HOME_ADDRESS,
         WORK_ADDRESS,
         OTHER
     }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public AddressType getAddressType() {
+        return addressType;
+    }
+
+    public void setAddressType(AddressType addressType) {
+        this.addressType = addressType;
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
+
 }
