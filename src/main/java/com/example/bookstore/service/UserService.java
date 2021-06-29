@@ -72,28 +72,29 @@ public class UserService {
         return userDtos;
     }
 
-    public UserDto updateUser(Long id, UserDto userDto){
+    public String updateUser(Long id, UserDto userDto){
 
-        // Kontrol Edilmeli...
-
-        User user = userRepository.findById(id).orElse(null);
-        user.setName(userDto.getName());
-        user.setSurname(userDto.getSurname());
-        user.setEmail(userDto.getEmail());
-        user.setPhone(userDto.getPhone());
-        user.setBirthDate(userDto.getBirthdate());
-        List<Adres> liste = new ArrayList<>();
-        userDto.getAdress().forEach(item -> {
-            Adres adres = new Adres();
-            adres.setAddress(item);
-            adres.setActive(true);
-            adres.setAddressType(Adres.AddressType.OTHER);
-            liste.add(adres);
-        });
-        user.setAdress(liste);
-        userRepository.save(user);
-        return userDto;
-
+        try {
+            User user1 = userRepository.getById(id);
+            user1.setName(userDto.getName());
+            user1.setSurname(userDto.getSurname());
+            user1.setPhone(userDto.getPhone());
+            user1.setEmail(userDto.getEmail());
+            List<Adres> liste = new ArrayList<>();
+            userDto.getAdress().forEach(item -> {
+                Adres adres = new Adres();
+                adres.setAddress(item);
+                adres.setActive(true);
+                adres.setAddressType(Adres.AddressType.OTHER);
+                liste.add(adres);
+            });
+            user1.setAdress(liste);
+            userRepository.save(user1);
+            return "User successfully updated";
+        }catch (Exception e) {
+            e.printStackTrace();
+            return "User not found";
+        }
     }
 
 
@@ -108,4 +109,28 @@ public class UserService {
         }
     }
 
+    public UserDto getUser(Long id) {
+        try {
+            User user1 = userRepository.getById(id);
+            UserDto userDto = new UserDto();
+
+            userDto.setName(user1.getName());
+            userDto.setSurname(user1.getSurname());
+            userDto.setPhone(user1.getPhone());
+            userDto.setEmail(user1.getEmail());
+            userDto.setBirthdate(user1.getBirthDate());
+            userDto.setAdress(
+                    user1.getAdress() != null ?
+                            user1.getAdress().
+                                    stream().
+                                    map(Adres::getAddress).
+                                    collect(Collectors.toList())
+                            : null);
+            return userDto;
+
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
 }

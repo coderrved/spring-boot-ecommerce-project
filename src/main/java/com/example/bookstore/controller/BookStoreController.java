@@ -39,10 +39,15 @@ public class BookStoreController {
         return ResponseEntity.ok(userService.getAll());
     }
 
+    @GetMapping("user/{id}")
+    public ResponseEntity<UserDto> getUser(@PathVariable Long id){
+        return ResponseEntity.ok(userService.getUser(id));
+    }
+
     @PutMapping("updateuser/{id}")
-    public ResponseEntity<UserDto> updateUser(@PathVariable Long id,
+    public String updateUser(@PathVariable Long id,
                            @RequestBody UserDto userDto){
-    return ResponseEntity.ok(userService.updateUser(id, userDto));
+    return userService.updateUser(id, userDto);
     }
 
     @DeleteMapping("deleteuser/{id}")

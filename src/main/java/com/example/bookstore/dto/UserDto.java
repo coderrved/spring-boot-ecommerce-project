@@ -26,7 +26,6 @@ public class UserDto {
 
     private Date birthdate;
 
-
     public String getName() {
         return name;
     }
@@ -74,4 +73,5 @@ public class UserDto {
     public void setBirthdate(Date birthdate) {
         this.birthdate = birthdate;
     }
+
 }

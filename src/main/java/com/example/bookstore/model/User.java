@@ -16,8 +16,7 @@ import java.util.List;
 public class User implements Serializable {
 
     @Id
-    @SequenceGenerator(name = "seq_user_table", allocationSize = 1)
-    @GeneratedValue(generator = "seq_user_table", strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(nullable = false, updatable = false)
     private Long id;
 
