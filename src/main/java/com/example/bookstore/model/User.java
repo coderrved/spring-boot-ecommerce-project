@@ -6,11 +6,11 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 @Entity()
 @Table(name = "user_table")
 @AllArgsConstructor
-@NoArgsConstructor
 @EqualsAndHashCode(of = {"id"})
 @ToString
 public class User implements Serializable {
@@ -32,13 +32,31 @@ public class User implements Serializable {
     @Column(length = 100, name = "email")
     private String email;
 
-    @OneToMany
-    @JoinColumn(name = "kisi_adres_id")
-    private List<Adres> adress;
+    @Column(length = 100, name = "job_title")
+    private String jobTitle;
 
     @Column(length = 100, name = "birthdate")
     @JsonFormat(pattern="yyyy-MM-dd")
     private Date birthDate;
+
+    @Column(length = 100, name = "image_url")
+    private String imageUrl;
+
+    private UUID userCode;
+
+    public User(String name, String surname, String phone, String email, String jobTitle, Date birthDate, String imageUrl) {
+        this.name = name;
+        this.surname = surname;
+        this.phone = phone;
+        this.email = email;
+        this.jobTitle = jobTitle;
+        this.birthDate = birthDate;
+        this.imageUrl = imageUrl;
+    }
+
+    public User(){
+
+    }
 
     public Long getId() {
         return id;
@@ -80,19 +98,35 @@ public class User implements Serializable {
         this.email = email;
     }
 
-    public List<Adres> getAdress() {
-        return adress;
-    }
-
-    public void setAdress(List<Adres> adress) {
-        this.adress = adress;
-    }
-
     public Date getBirthDate() {
         return birthDate;
     }
 
     public void setBirthDate(Date birthDate) {
         this.birthDate = birthDate;
+    }
+
+    public String getJobTitle() {
+        return jobTitle;
+    }
+
+    public void setJobTitle(String jobTitle) {
+        this.jobTitle = jobTitle;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public UUID getUserCode() {
+        return userCode;
+    }
+
+    public void setUserCode(UUID userCode) {
+        this.userCode = userCode;
     }
 }

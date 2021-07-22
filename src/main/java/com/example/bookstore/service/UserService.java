@@ -12,39 +12,33 @@ import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
+import java.util.UUID;
 
 @Service
 public class UserService {
 
     private final UserRepository userRepository;
-    private final AddressRepository addressRepository;
 
-    public UserService(UserRepository userRepository, AddressRepository addressRepository) {
+    public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
-        this.addressRepository = addressRepository;
     }
 
     @Transactional
     public UserDto save(UserDto userDto) {
 
-    User user = new User(); // User nesnesi olusturup Dto'dan gelen verileri işledim.
+    User user = new User();
+    // System.out.println(userDto.toString());
     user.setName(userDto.getName());
     user.setSurname(userDto.getSurname());
     user.setEmail(userDto.getEmail());
     user.setPhone(userDto.getPhone());
     user.setBirthDate(userDto.getBirthdate());
-    User userDb = userRepository.save(user); // DB'ye ekledim
-
-    List<Adres> liste = new ArrayList<>();
-    userDto.getAdress().forEach(item -> {
-        Adres adres = new Adres();
-        adres.setAddress(item);
-        adres.setActive(true);
-        adres.setAddressType(Adres.AddressType.OTHER);
-        liste.add(adres);
-    });
-    addressRepository.saveAll(liste);
+    user.setImageUrl(userDto.getImageUrl());
+    user.setJobTitle(userDto.getJobTitle());
+    userRepository.save(user); // DB'ye ekledim.
+    UUID a = UUID.randomUUID();
+    user.setUserCode(a);
+    userDto.setUserCode(a);
     return userDto;
     }
 
@@ -57,15 +51,11 @@ public class UserService {
             userDto.setName(item.getName());
             userDto.setSurname(item.getSurname());
             userDto.setEmail(item.getEmail());
+            userDto.setJobTitle(item.getJobTitle());
             userDto.setPhone(item.getPhone());
+            userDto.setImageUrl(item.getImageUrl());
             userDto.setBirthdate(item.getBirthDate());
-            userDto.setAdress(
-                    item.getAdress() != null ?
-                            item.getAdress().
-                                    stream().
-                                    map(Adres::getAddress).
-                                    collect(Collectors.toList())
-                            : null);
+            userDto.setUserCode(item.getUserCode());
             userDtos.add(userDto);
         });
 
@@ -75,21 +65,15 @@ public class UserService {
     public String updateUser(Long id, UserDto userDto){
 
         try {
-            User user1 = userRepository.getById(id);
-            user1.setName(userDto.getName());
-            user1.setSurname(userDto.getSurname());
-            user1.setPhone(userDto.getPhone());
-            user1.setEmail(userDto.getEmail());
-            List<Adres> liste = new ArrayList<>();
-            userDto.getAdress().forEach(item -> {
-                Adres adres = new Adres();
-                adres.setAddress(item);
-                adres.setActive(true);
-                adres.setAddressType(Adres.AddressType.OTHER);
-                liste.add(adres);
-            });
-            user1.setAdress(liste);
-            userRepository.save(user1);
+            User user = userRepository.getById(id);
+            user.setName(userDto.getName());
+            user.setSurname(userDto.getSurname());
+            user.setPhone(userDto.getPhone());
+            user.setEmail(userDto.getEmail());
+            user.setJobTitle(userDto.getJobTitle());
+            user.setImageUrl(userDto.getImageUrl());
+            user.setBirthDate(userDto.getBirthdate());
+            userRepository.save(user);
             return "User successfully updated";
         }catch (Exception e) {
             e.printStackTrace();
@@ -109,23 +93,28 @@ public class UserService {
         }
     }
 
+    public String deleteAllUser(){
+        try {
+            userRepository.deleteAll();
+            return "Tüm kullanicilar silindi.";
+        }catch (Exception e){
+            return "Kullanicilari silerken hata alindi.";
+        }
+    }
+
     public UserDto getUser(Long id) {
         try {
-            User user1 = userRepository.getById(id);
+            User user = userRepository.getById(id);
             UserDto userDto = new UserDto();
 
-            userDto.setName(user1.getName());
-            userDto.setSurname(user1.getSurname());
-            userDto.setPhone(user1.getPhone());
-            userDto.setEmail(user1.getEmail());
-            userDto.setBirthdate(user1.getBirthDate());
-            userDto.setAdress(
-                    user1.getAdress() != null ?
-                            user1.getAdress().
-                                    stream().
-                                    map(Adres::getAddress).
-                                    collect(Collectors.toList())
-                            : null);
+            userDto.setName(user.getName());
+            userDto.setSurname(user.getSurname());
+            userDto.setPhone(user.getPhone());
+            userDto.setEmail(user.getEmail());
+            userDto.setBirthdate(user.getBirthDate());
+            userDto.setImageUrl(user.getImageUrl());
+            userDto.setJobTitle(user.getJobTitle());
+            userDto.setUserCode(user.getUserCode());
             return userDto;
 
         }catch (Exception e){

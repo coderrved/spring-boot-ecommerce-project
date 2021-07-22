@@ -5,6 +5,7 @@ import lombok.*;
 
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 @Data
 @NoArgsConstructor
@@ -18,13 +19,41 @@ public class UserDto {
 
     private String surname;
 
-    private List<String> adress;
-
     private String phone;
 
     private String email;
 
+    private String jobTitle;
+
     private Date birthdate;
+
+    private String imageUrl;
+
+    private UUID userCode;
+
+    public UUID getUserCode() {
+        return userCode;
+    }
+
+    public void setUserCode(UUID userCode) {
+        this.userCode = userCode;
+    }
+
+    public String getJobTitle() {
+        return jobTitle;
+    }
+
+    public void setJobTitle(String jobTitle) {
+        this.jobTitle = jobTitle;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
 
     public String getName() {
         return name;
@@ -40,14 +69,6 @@ public class UserDto {
 
     public void setSurname(String surname) {
         this.surname = surname;
-    }
-
-    public List<String> getAdress() {
-        return adress;
-    }
-
-    public void setAdress(List<String> adress) {
-        this.adress = adress;
     }
 
     public String getPhone() {

@@ -52,7 +52,11 @@ public class BookStoreController {
 
     @DeleteMapping("deleteuser/{id}")
     public String deleteUser(@PathVariable Long id){
-         String responseMessage = userService.deleteUser(id);
-         return responseMessage;
+         return userService.deleteUser(id);
+    }
+
+    @DeleteMapping("deletealluser")
+    public String deleteAllUser(){
+        return userService.deleteAllUser();
     }
 }
