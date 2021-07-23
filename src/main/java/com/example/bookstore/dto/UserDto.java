@@ -29,13 +29,13 @@ public class UserDto {
 
     private String imageUrl;
 
-    private UUID userCode;
+    private String userCode;
 
-    public UUID getUserCode() {
+    public String getUserCode() {
         return userCode;
     }
 
-    public void setUserCode(UUID userCode) {
+    public void setUserCode(String userCode) {
         this.userCode = userCode;
     }
 

@@ -2,12 +2,9 @@ package com.example.bookstore.service;
 
 import com.example.bookstore.dto.UserDto;
 import com.example.bookstore.exception.UserNotFoundException;
-import com.example.bookstore.model.Adres;
 import com.example.bookstore.model.User;
-import com.example.bookstore.repository.AddressRepository;
 import com.example.bookstore.repository.UserRepository;
 import org.springframework.stereotype.Service;
-
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +24,6 @@ public class UserService {
     public UserDto save(UserDto userDto) {
 
     User user = new User();
-    // System.out.println(userDto.toString());
     user.setName(userDto.getName());
     user.setSurname(userDto.getSurname());
     user.setEmail(userDto.getEmail());
@@ -37,12 +33,12 @@ public class UserService {
     user.setJobTitle(userDto.getJobTitle());
     userRepository.save(user); // DB'ye ekledim.
     UUID a = UUID.randomUUID();
-    user.setUserCode(a);
-    userDto.setUserCode(a);
+    user.setUserCode(a.toString());
+    userDto.setUserCode(a.toString());
     return userDto;
     }
 
-    public List<UserDto> getAll(){
+    public List<UserDto> getAllUsers(){
         List<User> users = userRepository.findAll();
         List<UserDto> userDtos = new ArrayList<>();
 
@@ -55,7 +51,7 @@ public class UserService {
             userDto.setPhone(item.getPhone());
             userDto.setImageUrl(item.getImageUrl());
             userDto.setBirthdate(item.getBirthDate());
-            userDto.setUserCode(item.getUserCode());
+            userDto.setUserCode(item.getUserCode().toString());
             userDtos.add(userDto);
         });
 
@@ -82,7 +78,7 @@ public class UserService {
     }
 
 
-    public String deleteUser(Long id){
+    public String deleteUserById(Long id){
         Optional<User> user = Optional.ofNullable(userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException("User not found")));
         if (user != null){
@@ -102,7 +98,7 @@ public class UserService {
         }
     }
 
-    public UserDto getUser(Long id) {
+    public UserDto findUserById(Long id) {
         try {
             User user = userRepository.getById(id);
             UserDto userDto = new UserDto();

@@ -42,7 +42,8 @@ public class User implements Serializable {
     @Column(length = 100, name = "image_url")
     private String imageUrl;
 
-    private UUID userCode;
+    @Column(length = 100, name = "user_code")
+    private String userCode;
 
     public User(String name, String surname, String phone, String email, String jobTitle, Date birthDate, String imageUrl) {
         this.name = name;
@@ -122,11 +123,11 @@ public class User implements Serializable {
         this.imageUrl = imageUrl;
     }
 
-    public UUID getUserCode() {
+    public String getUserCode() {
         return userCode;
     }
 
-    public void setUserCode(UUID userCode) {
+    public void setUserCode(String userCode) {
         this.userCode = userCode;
     }
 }

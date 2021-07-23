@@ -5,6 +5,7 @@ import com.example.bookstore.model.User;
 import com.example.bookstore.repository.UserRepository;
 import com.example.bookstore.service.UserService;
 import org.apache.coyote.Response;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,27 +37,27 @@ public class BookStoreController {
 
     @GetMapping("alluser")
     public ResponseEntity<List<UserDto>> getAllUsers(){
-        return ResponseEntity.ok(userService.getAll());
+        return new ResponseEntity<>(userService.getAllUsers(), HttpStatus.OK);
     }
 
     @GetMapping("user/{id}")
     public ResponseEntity<UserDto> getUser(@PathVariable Long id){
-        return ResponseEntity.ok(userService.getUser(id));
+        return ResponseEntity.ok(userService.findUserById(id));
     }
 
     @PutMapping("updateuser/{id}")
-    public String updateUser(@PathVariable Long id,
+    public ResponseEntity<String> updateUser(@PathVariable Long id,
                            @RequestBody UserDto userDto){
-    return userService.updateUser(id, userDto);
+    return new ResponseEntity<>(userService.updateUser(id, userDto), HttpStatus.OK);
     }
 
     @DeleteMapping("deleteuser/{id}")
-    public String deleteUser(@PathVariable Long id){
-         return userService.deleteUser(id);
+    public ResponseEntity<String> deleteUserById(@PathVariable Long id){
+         return new ResponseEntity<>(userService.deleteUserById(id), HttpStatus.OK);
     }
 
     @DeleteMapping("deletealluser")
-    public String deleteAllUser(){
-        return userService.deleteAllUser();
+    public ResponseEntity<String>  deleteAllUser(){
+        return new ResponseEntity<>(userService.deleteAllUser(), HttpStatus.OK);
     }
 }
