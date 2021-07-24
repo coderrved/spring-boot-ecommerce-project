@@ -55,9 +55,7 @@ public class User implements Serializable {
         this.imageUrl = imageUrl;
     }
 
-    public User(){
-
-    }
+    public User(){}
 
     public Long getId() {
         return id;
