@@ -35,6 +35,7 @@ public class UserService {
     UUID a = UUID.randomUUID();
     user.setUserCode(a.toString());
     userDto.setUserCode(a.toString());
+    userDto.setId(user.getId());
     return userDto;
     }
 
@@ -44,6 +45,7 @@ public class UserService {
 
         users.forEach(item -> {
             UserDto userDto = new UserDto();
+            userDto.setId(item.getId());
             userDto.setName(item.getName());
             userDto.setSurname(item.getSurname());
             userDto.setEmail(item.getEmail());
@@ -51,17 +53,18 @@ public class UserService {
             userDto.setPhone(item.getPhone());
             userDto.setImageUrl(item.getImageUrl());
             userDto.setBirthdate(item.getBirthDate());
-            userDto.setUserCode(item.getUserCode().toString());
+            userDto.setUserCode(item.getUserCode());
             userDtos.add(userDto);
         });
 
         return userDtos;
     }
 
-    public String updateUser(Long id, UserDto userDto){
+    public void updateUser(UserDto userDto){
 
         try {
-            User user = userRepository.getById(id);
+            User user = new User();
+            user.setId(userDto.getId());
             user.setName(userDto.getName());
             user.setSurname(userDto.getSurname());
             user.setPhone(userDto.getPhone());
@@ -69,11 +72,11 @@ public class UserService {
             user.setJobTitle(userDto.getJobTitle());
             user.setImageUrl(userDto.getImageUrl());
             user.setBirthDate(userDto.getBirthdate());
+            user.setUserCode(userDto.getUserCode());
             userRepository.save(user);
-            return "User successfully updated";
         }catch (Exception e) {
             e.printStackTrace();
-            return "User not found";
+
         }
     }
 
@@ -102,7 +105,7 @@ public class UserService {
         try {
             User user = userRepository.getById(id);
             UserDto userDto = new UserDto();
-
+            userDto.setId(user.getId());
             userDto.setName(user.getName());
             userDto.setSurname(user.getSurname());
             userDto.setPhone(user.getPhone());

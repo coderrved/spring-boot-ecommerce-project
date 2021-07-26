@@ -14,6 +14,8 @@ import java.util.UUID;
 @EqualsAndHashCode(of = {"id"})
 public class UserDto {
 
+    private Long id;
+
     @NotNull
     private String name;
 
@@ -30,6 +32,14 @@ public class UserDto {
     private String imageUrl;
 
     private String userCode;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getUserCode() {
         return userCode;

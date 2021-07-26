@@ -45,10 +45,10 @@ public class BookStoreController {
         return ResponseEntity.ok(userService.findUserById(id));
     }
 
-    @PutMapping("updateuser/{id}")
-    public ResponseEntity<String> updateUser(@PathVariable Long id,
-                           @RequestBody UserDto userDto){
-    return new ResponseEntity<>(userService.updateUser(id, userDto), HttpStatus.OK);
+    @PutMapping("updateuser")
+    public ResponseEntity<UserDto> updateUser(@RequestBody UserDto userDto){
+        userService.updateUser((userDto));
+        return new ResponseEntity<>(userDto, HttpStatus.OK);
     }
 
     @DeleteMapping("deleteuser/{id}")
