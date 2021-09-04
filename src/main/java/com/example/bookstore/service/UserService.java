@@ -1,14 +1,12 @@
 package com.example.bookstore.service;
 
 import com.example.bookstore.dto.UserDto;
-import com.example.bookstore.exception.UserNotFoundException;
 import com.example.bookstore.model.User;
 import com.example.bookstore.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -74,30 +72,27 @@ public class UserService {
             user.setBirthDate(userDto.getBirthdate());
             user.setUserCode(userDto.getUserCode());
             userRepository.save(user);
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
 
         }
     }
 
-
-    public String deleteUserById(Long id){
-        Optional<User> user = Optional.ofNullable(userRepository.findById(id)
-                .orElseThrow(() -> new UserNotFoundException("User not found")));
-        if (user != null){
+    public void deleteUser(Long id) {
+        try {
             userRepository.deleteById(id);
-            return "User successfully deleted";
-        }else{
-            return "User not found";
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+
+
     }
 
-    public String deleteAllUser(){
+    public void deleteAllUser() {
         try {
             userRepository.deleteAll();
-            return "Tüm kullanicilar silindi.";
-        }catch (Exception e){
-            return "Kullanicilari silerken hata alindi.";
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

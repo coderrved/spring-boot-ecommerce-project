@@ -1,21 +1,17 @@
 package com.example.bookstore.controller;
 
 import com.example.bookstore.dto.UserDto;
-import com.example.bookstore.model.User;
 import com.example.bookstore.repository.UserRepository;
 import com.example.bookstore.service.UserService;
-import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("api/v1")
 public class BookStoreController {
-
 
     private final UserRepository userRepository;
     private final UserService userService;
@@ -23,11 +19,6 @@ public class BookStoreController {
     public BookStoreController(UserRepository userRepository, UserService userService) {
         this.userRepository = userRepository;
         this.userService = userService;
-    }
-
-    @GetMapping("helloworld")
-    public String helloWorld(){
-        return "Hello World!";
     }
 
     @PostMapping("adduser")
@@ -52,12 +43,12 @@ public class BookStoreController {
     }
 
     @DeleteMapping("deleteuser/{id}")
-    public ResponseEntity<String> deleteUserById(@PathVariable Long id){
-         return new ResponseEntity<>(userService.deleteUserById(id), HttpStatus.OK);
+    public void deleteUserById(@PathVariable Long id) {
+        userService.deleteUser(id);
     }
 
     @DeleteMapping("deletealluser")
-    public ResponseEntity<String>  deleteAllUser(){
-        return new ResponseEntity<>(userService.deleteAllUser(), HttpStatus.OK);
+    public void deleteAllUser() {
+        userService.deleteAllUser();
     }
 }
