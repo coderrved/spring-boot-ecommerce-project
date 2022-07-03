@@ -1,7 +1,7 @@
 ## Table of contents
-* [General info](#project-info)
+* [Project info](#project-info)
 * [Technologies](#technologies)
-* [Technologies](#rest-api)
+* [Rest Api](#rest-api)
 
 ## Project Info
 This project is being developed to practice Spring Boot.
